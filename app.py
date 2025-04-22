@@ -1,3 +1,7 @@
+"""
+QUANTA - Classified Query Assistant
+A secure, agent-aware RAG system for classified intelligence retrieval.
+"""
 import streamlit as st
 import traceback
 from retrieval.vector_store import VectorStore
@@ -65,7 +69,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # --- Query Input Section ---
-query_placeholder = DEFAULT_SUGGESTIONS[0] if not st.session_state.query_input else ""
+query_placeholder = "Type your top-secret question here..." if not st.session_state.query_input else ""
 
 col1, col2 = st.columns([4, 1])
 with col1:
@@ -78,7 +82,8 @@ with col1:
     )
 
 with col2:
-    if st.button("📋 Examples", help="Show example queries"):
+    button_label = "Hide Examples" if st.session_state.show_examples else "Show Examples"
+    if st.button(f"\ud83d\udccb {button_label}", help="Toggle example queries"):
         st.session_state.show_examples = not st.session_state.show_examples
 
 if st.session_state.show_examples:
@@ -99,15 +104,19 @@ if st.button("Submit"):
     if not query.strip():
         st.warning("Please enter a query.")
     else:
-        st.write(f"Processing for {agent_label}...")
-        if not is_authorized(int(agent_level), query):
-            st.error(deny_response())
-        else:
-            try:
-                vector = VectorStore("chunks/secret_info_chunks.json")
-                results = vector.query(query)
-                response = apply_agent_rules(agent_level, query, results)
-                st.success(response)
-            except Exception as e:
-                st.error("❌ An error occurred during processing:")
-                st.code(traceback.format_exc())
+        with st.spinner(f"Processing for {agent_label}..."):
+            if not is_authorized(int(agent_level), query):
+                st.error(deny_response())
+            else:
+                try:
+                    vector = VectorStore("chunks/secret_info_chunks.json")
+                    results = vector.query(query)
+                    response = apply_agent_rules(agent_level, query, results)
+                    st.success(response)
+                except Exception as e:
+                    st.error("\u274c An error occurred during processing:")
+                    st.code(traceback.format_exc())
+
+# --- Footer ---
+st.markdown("---")
+st.markdown("Developed by [Your Name].")
