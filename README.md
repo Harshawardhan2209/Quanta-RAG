@@ -6,12 +6,10 @@
 
 **A classified, agent-aware RAG system for secure intelligence retrieval.**  
 Engineered for high-stakes operations where information must be precise, permissioned, and explainable.
-
+git push origin main
 ---
 
-<p align="center">
-  <img src="https://github.com/user-attachments/assets/48a77ddb-2eda-4672-9190-236dc8c55256" alt="Logo College" width="400">
-</p>
+
 
 📄 **Problem Statement:** [text](problemStatement.txt)  
 
@@ -26,9 +24,7 @@ Quanta simulates a real-world classified intelligence assistant, designed to ret
 
 ---
 
-<p align="center">
-  <img src="https://github.com/user-attachments/assets/53b597aa-d33f-4ab3-a6df-d0a00573e030" alt="Demo GIF">
-</p>
+
 
 ---
 
